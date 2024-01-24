@@ -5,6 +5,10 @@
  * For more details on writing Custom Plugins, please refer to https://docs.gradle.org/8.5/userguide/custom_plugins.html in the Gradle documentation.
  * This project uses @Incubating APIs which are subject to change.
  */
+@file:Suppress("UnstableApiUsage")
+
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
@@ -14,8 +18,36 @@ plugins {
     alias(libs.plugins.jvm)
 
     // id("com.gradle.plugin-publish") version "1.2.1"
-
+    `kotlin-dsl`
     id("maven-publish")
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
+
+dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.android.tools.common)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
+    implementation(libs.truth)
+}
+
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
 }
 
 repositories {
@@ -64,15 +96,69 @@ afterEvaluate {
 // The names of the blocks inside "plugins" need to be unique, they will identify the plugins being configured.
 // All properties are mandatory.
 gradlePlugin {
-//    website.set("https://github.com/zhangwenxue/android-boot-plugin")
-//    vcsUrl.set("https://github.com/zhangwenxue/android-boot-plugin")
+    website.set("https://github.com/zhangwenxue/android-boot-plugin")
+    vcsUrl.set("https://github.com/zhangwenxue/android-boot-plugin")
     plugins {
-        create("androidBoot") {
+        /*create("androidBoot") {
             id = "android.boot.greeting"
             implementationClass = "android.boot.AndroidBootPlugin"
             displayName = "Gradle Greeting plugin"
             description = "Gradle plugin to say hello!"
-//            tags.set(listOf("search", "tags", "for", "your", "hello", "plugin"))
+        }*/
+        register("androidApplicationCompose") {
+            id = "android.boot.application.compose"
+            implementationClass = "plugin.AndroidApplicationComposeConventionPlugin"
+        }
+
+        register("androidApplication") {
+            id = "android.boot.application"
+            implementationClass = "plugin.AndroidApplicationConventionPlugin"
+        }
+        register("androidApplicationJacoco") {
+            id = "android.boot.application.jacoco"
+            implementationClass = "plugin.AndroidApplicationJacocoConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "android.boot.library.compose"
+            implementationClass = "plugin.AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "android.boot.library"
+            implementationClass = "plugin.AndroidLibraryConventionPlugin"
+        }
+
+        register("androidFeature"){
+            id = "android.boot.feature"
+            implementationClass="plugin.AndroidFeatureConventionPlugin"
+        }
+
+        register("androidLibraryJacoco"){
+            id = "android.boot.library.jacoco"
+            implementationClass = "plugin.AndroidLibraryJacocoConventionPlugin"
+        }
+
+        register("androidTest") {
+            id = "android.boot.test"
+            implementationClass = "plugin.AndroidTestConventionPlugin"
+        }
+
+        register("androidHilt") {
+            id = "android.boot.hilt"
+            implementationClass = "plugin.AndroidHiltConventionPlugin"
+        }
+
+        register("androidRoom") {
+            id = "android.boot.room"
+            implementationClass = "plugin.AndroidRoomConventionPlugin"
+        }
+
+        register("androidLint") {
+            id = "android.boot.lint"
+            implementationClass = "plugin.AndroidLintConventionPlugin"
+        }
+        register("jvmLibrary") {
+            id = "android.boot.jvm.library"
+            implementationClass = "plugin.JvmLibraryConventionPlugin"
         }
     }
 }
@@ -80,14 +166,12 @@ gradlePlugin {
 testing {
     suites {
         // Configure the built-in test suite
-        Suppress("EXPERIMENTAL_API_USAGE")
         val test by getting(JvmTestSuite::class) {
             // Use Kotlin Test test framework
             useKotlinTest("1.9.20")
         }
 
         // Create a new test suite
-        Suppress("EXPERIMENTAL_API_USAGE")
         val functionalTest by registering(JvmTestSuite::class) {
             // Use Kotlin Test test framework
             useKotlinTest("1.9.20")

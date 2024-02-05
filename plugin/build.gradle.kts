@@ -33,13 +33,13 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-    compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.android.tools.common)
-    compileOnly(libs.firebase.crashlytics.gradlePlugin)
-    compileOnly(libs.firebase.performance.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.room.gradlePlugin)
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.android.tools.common)
+    implementation(libs.firebase.crashlytics.gradlePlugin)
+    implementation(libs.firebase.performance.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.ksp.gradlePlugin)
+    implementation(libs.room.gradlePlugin)
     implementation(libs.truth)
 }
 
@@ -63,7 +63,7 @@ repositories {
 }
 
 // The project version will be used as your plugin version when publishing.
-version = "1.0.0"
+version = "0.0.1-pre09"
 group = "android.boot"
 val remoteUrl = "${properties["gradle.publish.remoteurl"]}"
 val mavenUserName = "${properties["gradle.publish.username"]}"
@@ -105,60 +105,60 @@ gradlePlugin {
             displayName = "Gradle Greeting plugin"
             description = "Gradle plugin to say hello!"
         }*/
-        register("androidApplicationCompose") {
+        create("androidApplicationCompose") {
             id = "android.boot.application.compose"
-            implementationClass = "plugin.AndroidApplicationComposeConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidApplicationComposeConventionPlugin"
         }
 
-        register("androidApplication") {
+        create("androidApplication") {
             id = "android.boot.application"
-            implementationClass = "plugin.AndroidApplicationConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidApplicationConventionPlugin"
         }
-        register("androidApplicationJacoco") {
+        create("androidApplicationJacoco") {
             id = "android.boot.application.jacoco"
-            implementationClass = "plugin.AndroidApplicationJacocoConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidApplicationJacocoConventionPlugin"
         }
-        register("androidLibraryCompose") {
+        create("androidLibraryCompose") {
             id = "android.boot.library.compose"
-            implementationClass = "plugin.AndroidLibraryComposeConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidLibraryComposeConventionPlugin"
         }
-        register("androidLibrary") {
+        create("androidLibrary") {
             id = "android.boot.library"
-            implementationClass = "plugin.AndroidLibraryConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidLibraryConventionPlugin"
         }
 
-        register("androidFeature"){
+        create("androidFeature") {
             id = "android.boot.feature"
-            implementationClass="plugin.AndroidFeatureConventionPlugin"
+            implementationClass = "plugin.AndroidFeatureConventionPlugin"
         }
 
-        register("androidLibraryJacoco"){
+        create("androidLibraryJacoco") {
             id = "android.boot.library.jacoco"
-            implementationClass = "plugin.AndroidLibraryJacocoConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidLibraryJacocoConventionPlugin"
         }
 
-        register("androidTest") {
+        create("androidTest") {
             id = "android.boot.test"
-            implementationClass = "plugin.AndroidTestConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidTestConventionPlugin"
         }
 
-        register("androidHilt") {
+        create("androidHilt") {
             id = "android.boot.hilt"
-            implementationClass = "plugin.AndroidHiltConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidHiltConventionPlugin"
         }
 
-        register("androidRoom") {
+        create("androidRoom") {
             id = "android.boot.room"
-            implementationClass = "plugin.AndroidRoomConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidRoomConventionPlugin"
         }
 
-        register("androidLint") {
+        create("androidLint") {
             id = "android.boot.lint"
-            implementationClass = "plugin.AndroidLintConventionPlugin"
+            implementationClass = "android.boot.plugin.AndroidLintConventionPlugin"
         }
-        register("jvmLibrary") {
+        create("jvmLibrary") {
             id = "android.boot.jvm.library"
-            implementationClass = "plugin.JvmLibraryConventionPlugin"
+            implementationClass = "android.boot.plugin.JvmLibraryConventionPlugin"
         }
     }
 }

@@ -1,3 +1,4 @@
+package android.boot.plugin
 /*
  * Copyright 2023 The Android Open Source Project
  *

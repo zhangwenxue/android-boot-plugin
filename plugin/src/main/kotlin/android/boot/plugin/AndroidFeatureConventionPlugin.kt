@@ -1,3 +1,5 @@
+package android.boot.plugin
+
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -31,15 +33,15 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
-                    testInstrumentationRunner =
-                        "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+//                    testInstrumentationRunner =
+//                        "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
                 }
                 configureGradleManagedDevices(this)
             }
 
             dependencies {
-                add("implementation", project(":core:ui"))
-                add("implementation", project(":core:designsystem"))
+//                add("implementation", project(":core:ui"))
+//                add("implementation", project(":core:designsystem"))
 
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
